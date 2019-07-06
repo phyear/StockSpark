@@ -82,4 +82,18 @@ public class StockInfo {
     public void setClose(String close) {
         this.close = close;
     }
+
+    @Override
+    public String toString() {
+        return "StockInfo{" +
+                "id=" + id +
+                ", stockId='" + stockId + '\'' +
+                ", day=" + day +
+                ", open='" + open + '\'' +
+                ", high='" + high + '\'' +
+                ", low='" + low + '\'' +
+                ", volume='" + volume + '\'' +
+                ", close='" + close + '\'' +
+                '}';
+    }
 }

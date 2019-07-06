@@ -25,7 +25,7 @@ public class SharesApplicationTests {
     public void contextLoads() {
 
        jsoupService.initYearInfo(
-               JsoupUtil.urls[1],"sh600185");
+               JsoupUtil.urls[0],"sz002027",0);
     }
 
 }

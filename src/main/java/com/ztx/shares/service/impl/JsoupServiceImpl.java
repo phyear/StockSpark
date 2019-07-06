@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import javax.sound.midi.Soundbank;
 import java.io.IOException;
 
 @Service
@@ -83,15 +84,14 @@ public class JsoupServiceImpl implements JsoupService {
 
     @Override
     @Transactional
-    public int initYearInfo(String url,String stockId) {
+    public int initYearInfo(String url,String stockId,int val) {
         //设置统计变量
          int count=0;
         //获取接口的数据并转换
         String res=restTemplate.getForObject(url+stockId, String.class);
         JSONArray results = null;
         //是否有数据，没有就返回
-        if(res.equals("")|| res==null){return 0;}
-
+        if(res.equals("")|| res==""){return 0;}
         try{
             results = JSONArray.parseArray(res);
         }
@@ -105,17 +105,17 @@ public class JsoupServiceImpl implements JsoupService {
          * 2.转换为对象并依次添加进数据库
          */
         for(int i=0;i<results.size();i++){
-
             JSONObject object=results.getJSONObject(i);
-            int counts=stockInfoMapper.selectByIdAndTime(object.getString("day"),stockId);
-            System.out.println(counts);
-            if(counts>0){continue;}
             StockInfo stockInfo=setValue(object,stockId);
+            if(val==1){
+              int a=stockInfoMapper.selectByIdAndTime(stockId,object.get("day").toString());
+              if(a>0){return 0;}
+            }
             int resa=stockInfoMapper.insertSelective(stockInfo);
             count+=resa;
         }
         //修改股票代码表中的状态：0：未获取历史数据 1：已经获取数据
-        stockMapper.updateStatus(stockId,1);
+        if(val==0){stockMapper.updateStatus(stockId,1);}
         return count;
     }
 

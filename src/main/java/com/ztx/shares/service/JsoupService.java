@@ -13,7 +13,7 @@ public interface JsoupService {
       * @param stockId
       * @return
       */
-     int initYearInfo(String url, String stockId);
+     int initYearInfo(String url, String stockId,int val);
 
 
 
