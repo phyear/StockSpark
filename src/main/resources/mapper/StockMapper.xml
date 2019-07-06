@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztx.shares.mapper.StockMapper">
+  <resultMap id="BaseResultMap" type="com.ztx.shares.pojo.Stock">
+    <id column="stock_id" jdbcType="VARCHAR" property="stockId" />
+    <result column="share_name" jdbcType="VARCHAR" property="shareName" />
+    <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="company_short" jdbcType="VARCHAR" property="companyShort" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="share_coding" jdbcType="VARCHAR" property="shareCoding" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    stock_id, share_name, company_name, company_short, status, share_coding
+  </sql>
+  <select id="selectByInfo" resultMap="BaseResultMap">
+   select * from stock
+   <where>
+     <if test="info !=null and info!=''">
+       stock_id like '%${info}%' or
+       share_name like '%${info}%' or
+       company_name like '%${info}%' or
+       company_short like '%${info}%'
+     </if>
+   </where>
+  </select>
+
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from stock
+  </select>
+  <select id="selectByStatusLimitTen" resultType="java.lang.String">
+    SELECT stock_id FROM stock WHERE STATUS=#{status}
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stock
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from stock
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.ztx.shares.pojo.Stock">
+    insert into stock (stock_id, share_name, company_name, 
+      company_short, status, share_coding
+      )
+    values (#{stockId,jdbcType=VARCHAR}, #{shareName,jdbcType=VARCHAR}, #{companyName,jdbcType=VARCHAR}, 
+      #{companyShort,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{shareCoding,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztx.shares.pojo.Stock">
+    insert into stock
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="stockId != null">
+        stock_id,
+      </if>
+      <if test="shareName != null">
+        share_name,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="companyShort != null">
+        company_short,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="shareCoding != null">
+        share_coding,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="stockId != null">
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="shareName != null">
+        #{shareName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyShort != null">
+        #{companyShort,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shareCoding != null">
+        #{shareCoding,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztx.shares.pojo.Stock">
+    update stock
+    <set>
+      <if test="shareName != null">
+        share_name = #{shareName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyShort != null">
+        company_short = #{companyShort,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="shareCoding != null">
+        share_coding = #{shareCoding,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztx.shares.pojo.Stock">
+    update stock
+    set share_name = #{shareName,jdbcType=VARCHAR},
+      company_name = #{companyName,jdbcType=VARCHAR},
+      company_short = #{companyShort,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      share_coding = #{shareCoding,jdbcType=VARCHAR}
+    where stock_id = #{stockId,jdbcType=VARCHAR}
+  </update>
+</mapper>

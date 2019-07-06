@@ -1,0 +1,141 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common::header">
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div th:include="common::navbar"></div>
+<div class="layui-container" style="margin-top: 30px;">
+    <div id="OneMouth" class="layui-fluid" style="height:400px;"></div>
+    <div id="main" class="layui-fluid" style="height:400px;"></div>
+</div>
+
+<div th:include="common::footers"></div>
+<script th:src="@{/layui/echart.js}" src="/layui/echart.js"></script>
+<script th:inline="javascript">
+
+
+      var stockId=[[${stock.stockId}]];
+      var dates={};
+      var dateTIme=new Date();
+      var y = dateTIme.getFullYear();
+      var m = dateTIme.getMonth();
+      var d = dateTIme.getDate();
+      var oneMonthAgo=y+'-'+m+'-'+d;
+
+      $.ajax({
+          url:'/stockInfoDate/'+stockId,
+          method:'get',
+          data:{},
+          dataType:'JSON',
+          success:function(da){
+              var stock=JSON.stringify([[${stock}]]);
+              f(da,stock,'main','历史行情');
+
+          },
+          error:function (data) {
+
+          }
+      }) ;
+      $.ajax({
+          url:'/stockInfoDate/'+stockId,
+          method:'get',
+          data:{startTime:oneMonthAgo},
+          dataType:'JSON',
+          success:function(da){
+              var stock=JSON.stringify([[${stock}]]);
+              f(da,stock,'OneMouth','最近一个月');
+
+          },
+          error:function (data) {
+
+          }
+      }) ;
+      $.ajax({
+          url:'/stockInfoDate/'+stockId,
+          method:'get',
+          data:{},
+          dataType:'JSON',
+          success:function(da){
+              var stock=JSON.stringify([[${stock}]]);
+              f(da,stock,'main','历史行情');
+
+          },
+          error:function (data) {
+
+          }
+      }) ;
+  function f(dates,stock,elem,tiltle) {
+      var obj = JSON.parse(stock);
+      var closes=dates['closes'];
+      var opens=dates['opens'];
+      var highs=dates['highs'];
+      var days=dates['days'];
+      var lows=dates['lows'];
+      var myChart = echarts.init(document.getElementById(elem));
+      option = {
+          title: {
+              text:obj['shareName']+tiltle
+          },
+          tooltip: {
+              trigger: 'axis'
+          },
+          legend: {
+              data:['开盘价','','收盘价','最高价','最低价']
+          },
+          grid: {
+              left: '3%',
+              right: '4%',
+              bottom: '3%',
+              containLabel: true
+          },
+          toolbox: {
+              feature: {
+                  saveAsImage: {}
+              }
+          },
+          xAxis: {
+              type: 'category',
+              boundaryGap: false,
+              data: days
+          },
+          yAxis: {
+
+          },
+          series: [
+              {
+                  name:'开盘价',
+                  type:'line',
+
+                  data:opens
+              },
+              {
+                  name:'收盘价',
+                  type:'line',
+
+                  data:closes
+              },
+              {
+                  name:'最高价',
+                  type:'line',
+
+                  data:highs
+              },
+              {
+                  name:'最低价',
+                  type:'line',
+
+                  data:lows
+              }
+
+          ]
+      };
+      myChart.setOption(option);
+  }
+
+
+
+</script>
+</body>
+</html>

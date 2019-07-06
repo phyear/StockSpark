@@ -1,0 +1,78 @@
+<!DOCTYPE html >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common::header">
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body style="position: relative">
+<div th:include="common::navbar"></div>
+<div class="layui-fluid">
+    <div class="layui-main">
+        <fieldset class="layui-elem-field layui-field-title site-demo-button" style="margin-top: 30px;">
+            <legend>查询</legend>
+        </fieldset>
+        <form class="layui-form"  action="" method="post">
+            <div class="layui-form-item">
+                <div class="layui-input-inline">
+                    <input type="text" name="shareName"  autocomplete="off" placeholder="股票代码/公司名称/股票名称"
+                           class="layui-input" style="width:300px;">
+
+                </div>
+                <div class="layui-input-inline" style="margin-left: 43px;">
+                    <button type="submit" class="layui-btn" lay-submit lay-filter="search" style="background: #5FB878;"><i class="layui-icon layui-icon-search"></i></button>
+                </div>
+            </div>
+
+
+        </form>
+        <table id="stockTable" lay-filter="stockTable">
+
+        </table>
+
+    </div>
+
+</div>
+
+<div th:include="common::footers"></div>
+
+<script th:inline="none">
+
+    layui.use(['element','table','form'], function(){
+        var element=layui.element;
+        var table = layui.table;
+        var form=layui.form;
+
+        table.render({
+            elem: '#stockTable'
+            ,id:"stockTable"
+            ,toolbar: true
+            ,url: '/getStock' //数据接口
+            ,page: true//开启分页
+            ,cellMinWidth: 80
+            ,cols: [[ //表头
+                {field: 'stockId', title: '股票代码',align: 'center'}
+                ,{field: 'shareName', title: '股票名称' ,align: 'center'}
+                ,{field: 'companyName', title: '公司名称',align: 'center'}
+                ,{field: 'companyShort', title: '公司简称',align: 'center'}
+            ]]
+        });
+        form.on('submit(search)',function(data){
+            console.log(data.field)
+           table.reload("stockTable",{
+               page:{
+                   curr:1
+               },
+               where:data.field
+           });
+           return false;
+        });
+
+        table.on('rowDouble(stockTable)', function(obj){
+            var data = obj.data;
+
+             location.href = "stockInfo?stockId="+data['stockId'];
+        });
+    });
+    </script>
+</body>
+</html>

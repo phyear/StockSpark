@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ztx.shares.mapper.StockInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ztx.shares.pojo.StockInfo">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="stock_id" jdbcType="VARCHAR" property="stockId" />
+    <result column="day" jdbcType="TIMESTAMP" property="day" />
+    <result column="open" jdbcType="VARCHAR" property="open" />
+    <result column="high" jdbcType="VARCHAR" property="high" />
+    <result column="low" jdbcType="VARCHAR" property="low" />
+    <result column="volume" jdbcType="VARCHAR" property="volume" />
+    <result column="close" jdbcType="VARCHAR" property="close" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, stock_id, day, open, high, low, volume, close
+  </sql>
+  <select id="selectByIdAndTime" resultType="java.lang.Integer">
+    select count(*) from  stockinfo
+    <where>
+      <if test="day!=null">
+       and  day like '${day}%'
+      </if>
+      <if test="stockId!=null">
+        and stock_id=#{stockId}
+      </if>
+    </where>
+  </select>
+ <select id="selectIncrease" resultType="java.util.Map">
+  SELECT stock_id as id,COUNT(*) AS counts FROM stockInfo
+  <where>
+    <if test="val!=null">
+      and ((CLOSE-OPEN)/OPEN*100)>#{val}
+    </if>
+
+    <if test="openTime!=null and endTime !=null">
+      AND DAY BETWEEN #{openTime} AND #{endTime}
+    </if>
+
+    <if test="openTime!=null and endTime==null">
+      and  day between #{openTime}  and DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+    </if>
+    GROUP BY stock_id
+  </where>
+ </select>
+  <select id="getById" resultType="java.util.Map">
+    SELECT * FROM stockinfo
+    <where>
+      <if test="stockId!=null">
+        and  stock_id=#{stockId}
+      </if>
+      <if test="startTime!=null and endTime!=null">
+        and  day between #{startTime} and #{endTime}
+      </if>
+      <if test="startTime!=null and endTime==null">
+        and  day between #{startTime} and DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+      </if>
+    </where>
+   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from stockinfo
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from stockinfo
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.ztx.shares.pojo.StockInfo">
+    insert into stockinfo (id, stock_id, day, 
+      open, high, low, volume, 
+      close)
+    values (#{id,jdbcType=INTEGER}, #{stockId,jdbcType=VARCHAR}, #{day,jdbcType=TIMESTAMP}, 
+      #{open,jdbcType=VARCHAR}, #{high,jdbcType=VARCHAR}, #{low,jdbcType=VARCHAR}, #{volume,jdbcType=VARCHAR}, 
+      #{close,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ztx.shares.pojo.StockInfo">
+    insert into stockinfo
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="stockId != null">
+        stock_id,
+      </if>
+      <if test="day != null">
+        day,
+      </if>
+      <if test="open != null">
+        open,
+      </if>
+      <if test="high != null">
+        high,
+      </if>
+      <if test="low != null">
+        low,
+      </if>
+      <if test="volume != null">
+        volume,
+      </if>
+      <if test="close != null">
+        close,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="stockId != null">
+        #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="day != null">
+        #{day,jdbcType=TIMESTAMP},
+      </if>
+      <if test="open != null">
+        #{open,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null">
+        #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="low != null">
+        #{low,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null">
+        #{volume,jdbcType=VARCHAR},
+      </if>
+      <if test="close != null">
+        #{close,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ztx.shares.pojo.StockInfo">
+    update stockinfo
+    <set>
+      <if test="stockId != null">
+        stock_id = #{stockId,jdbcType=VARCHAR},
+      </if>
+      <if test="day != null">
+        day = #{day,jdbcType=TIMESTAMP},
+      </if>
+      <if test="open != null">
+        open = #{open,jdbcType=VARCHAR},
+      </if>
+      <if test="high != null">
+        high = #{high,jdbcType=VARCHAR},
+      </if>
+      <if test="low != null">
+        low = #{low,jdbcType=VARCHAR},
+      </if>
+      <if test="volume != null">
+        volume = #{volume,jdbcType=VARCHAR},
+      </if>
+      <if test="close != null">
+        close = #{close,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ztx.shares.pojo.StockInfo">
+    update stockinfo
+    set stock_id = #{stockId,jdbcType=VARCHAR},
+      day = #{day,jdbcType=TIMESTAMP},
+      open = #{open,jdbcType=VARCHAR},
+      high = #{high,jdbcType=VARCHAR},
+      low = #{low,jdbcType=VARCHAR},
+      volume = #{volume,jdbcType=VARCHAR},
+      close = #{close,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

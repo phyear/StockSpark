@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link th:href="@{/layui/css/layui.css}" href="/layui/css/layui.css" rel="stylesheet">
+    <script th:src="@{/layui/jquery.js}" src="/layui/jquery.js"></script>
+    <script th:src="@{/layui/layui.js}" src="/layui/layui.js"></script>
+</head>
+<body>
+ <div th:fragment="navbar">
+     <div class="layui-header" style="background: #5FB878;">
+         <div class="layui-main" style="position:relative;">
+             <a class="layui-logo" style="margin-top:10px;display: inline-block">
+                 <i class="layui-icon layui-icon-water" style="color: white;
+         font-size: 30px;">STOCK</i>
+             </a>
+             <ul class="" style="font-size: 14px;margin-left: 20px;
+             display: inline-block;
+             position:absolute;top: 0px;">
+                 <li><a href="/toStockIncrease" style="display: block;padding: 20px 10px;">涨幅情况</a></li>
+             </ul>
+
+         </div>
+     </div>
+ </div>
+
+<div th:fragment="footers">
+    <div class="layui-footer layui-bg-cyan" style="padding:20px 0px;bottom: 0px">
+        <div class="layui-main">我们的存在即为客户提供更好的服务</div>
+    </div>
+ </div>
+
+</body>
+</html>
