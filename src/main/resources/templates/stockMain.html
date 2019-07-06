@@ -36,12 +36,10 @@
 <div th:include="common::footers"></div>
 
 <script th:inline="none">
-
     layui.use(['element','table','form'], function(){
         var element=layui.element;
         var table = layui.table;
         var form=layui.form;
-
         table.render({
             elem: '#stockTable'
             ,id:"stockTable"
@@ -55,14 +53,20 @@
                 ,{field: 'companyName', title: '公司名称',align: 'center'}
                 ,{field: 'companyShort', title: '公司简称',align: 'center'}
             ]]
+            ,done:function () {
+                autoScreen();
+            }
         });
+
         form.on('submit(search)',function(data){
-            console.log(data.field)
            table.reload("stockTable",{
                page:{
                    curr:1
                },
                where:data.field
+               ,done:function () {
+                   autoScreen();
+               }
            });
            return false;
         });

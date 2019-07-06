@@ -29,14 +29,7 @@
         }
     });
 
-    function autoScreen() {
-        var bodyHeight=$(document.body).height();
-        var scrHeight=$(document).height();
-        if(bodyHeight<scrHeight){
-            var tops=scrHeight-bodyHeight;
-            $(".layui-footer").css("marginTop",tops+"px");
-        }
-    }
+
     function f(data,elem,title){
         var sharesName=data["ids"];
         var counts=data["counts"];

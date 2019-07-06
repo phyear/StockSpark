@@ -14,8 +14,6 @@
 <div th:include="common::footers"></div>
 <script th:src="@{/layui/echart.js}" src="/layui/echart.js"></script>
 <script th:inline="javascript">
-
-
       var stockId=[[${stock.stockId}]];
       var dates={};
       var dateTIme=new Date();
@@ -65,7 +63,7 @@
           error:function (data) {
 
           }
-      }) ;
+      }) ;autoScreen();
   function f(dates,stock,elem,tiltle) {
       var obj = JSON.parse(stock);
       var closes=dates['closes'];
