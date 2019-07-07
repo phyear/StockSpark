@@ -47,7 +47,7 @@ public class JobDemo {
 
      }
 
-    @Scheduled(cron = "0 15 16 ? * MON-FRI")
+    @Scheduled(cron = "0 40 18 ? * MON-FRI")
     public void getLastMarket(){
         List<String> list=stockMapper.selectByStatusLimitTen(1);
         if(list==null||list.size()==0){ return;}
@@ -57,7 +57,7 @@ public class JobDemo {
             public void run() {
                 for (String coding:list) {
                     int i=jsoupService.initYearInfo(url,coding,a);
-                    System.out.println("成功");
+                    System.out.println("实时数据更新成功");
                     try {
                         sleep(5000);
                     } catch (InterruptedException e) {
