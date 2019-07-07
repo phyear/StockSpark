@@ -13,14 +13,15 @@ StockSpark是股票信息查询和展示网站，后端通过springboot、Jsoup�
 * idea导入项目
 * 导入mysql数据库
 * 修改application.properties文件中数据源信息，改为自己的密码和用户
-  (```)
+
+  ```
   spring.datasource.driver-class-name=com.mysql.jdbc.Driver
   spring.datasource.url=jdbc:mysql://localhost:3306/shares?useUnicode=true&characterEncoding=UTF8&serverTimezone=UTC&useSSL=false
   spring.datasource.username=自己用户名
   spring.datasource.password=自己密码
-  (```)
+  ```
   
-  ## 页面展示
+## 页面展示
   * 股票代码信息界面
   
   * 股票详情
