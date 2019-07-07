@@ -26,21 +26,21 @@
     </where>
   </select>
  <select id="selectIncrease" resultType="java.util.Map">
-  SELECT stock_id as id,COUNT(*) AS counts FROM stockInfo
-  <where>
-    <if test="val!=null">
-      and ((CLOSE-OPEN)/OPEN*100)>#{val}
-    </if>
-
-    <if test="openTime!=null and endTime !=null">
-      AND DAY BETWEEN #{openTime} AND #{endTime}
-    </if>
-
-    <if test="openTime!=null and endTime==null">
-      and  day between #{openTime}  and DATE_ADD(CURDATE(), INTERVAL 1 DAY)
-    </if>
-    GROUP BY stock_id
-  </where>
+   SELECT share_name as names,counts FROM (SELECT stock_id,COUNT(*) AS counts FROM stockinfo
+   WHERE id IN (
+   SELECT id FROM stockinfo
+   <where>
+     <if test="val!=null">
+       AND (CLOSE-OPEN)/OPEN*100>#{val}
+     </if>
+      <if test="openTime!=null and endTime==null">
+        AND DAY BETWEEN #{openTime}  AND DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+      </if>
+     <if test="openTime!=null and endTime!=null">
+       AND DAY BETWEEN #{openTime}  AND #{endTime}
+     </if>
+   </where>
+   )GROUP BY stock_id) A INNER JOIN stock ON A.stock_id=stock.`stock_id`
  </select>
   <select id="getById" resultType="java.util.Map">
     SELECT day, open, high, low,close FROM stockinfo

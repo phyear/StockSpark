@@ -56,8 +56,8 @@ public class StockInfoServiceImpl  implements StockInfoService {
 
         for (Map<String,Object> map:
         list) {
-           Stock stock=stockMapper.selectByPrimaryKey(map.get("id").toString());
-           stocks.add(stock.getShareName());
+
+           stocks.add(map.get("names").toString());
            counts.add(map.get("counts").toString());
 
 
