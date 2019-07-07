@@ -24,6 +24,7 @@ StockSpark是股票信息查询和展示网站，后端通过springboot、Jsoup�
 ## 页面展示
   * 股票代码信息界面
   
+  ![](/img/stockMain.png)
   * 股票详情
   
   * 涨幅情况
