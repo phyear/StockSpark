@@ -18,7 +18,7 @@
     select count(*) from  stockinfo
     <where>
       <if test="day!=null">
-       and  day like '${day}%'
+       and day >#{day} and day &lt; #{day }
       </if>
       <if test="stockId!=null">
         and stock_id=#{stockId}

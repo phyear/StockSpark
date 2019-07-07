@@ -52,7 +52,7 @@ public class StockInfoServiceImpl  implements StockInfoService {
         List<String> counts=new ArrayList<>();
         //获取所有的30天内超过5%的公司股票
         List<Map<String,Object>> list=stockInfoMapper
-                .selectIncrease(5,DateUtil.getOldMouth("yyyy-MM-dd",1,new Date()),null);
+                .selectIncrease(5,DateUtil.getOldMouth("yyyy-MM-dd",1,new Date()),DateUtil.dateToStr(new Date()));
 
         for (Map<String,Object> map:
         list) {
