@@ -33,8 +33,6 @@ StockSpark是股票信息查询和展示网站，后端通过springboot、Jsoup�
   * 涨幅情况
   ![](img/increa.png)
 
-## 贡献
-欢迎志同道合者一起开发
 
 ## 支持
 
