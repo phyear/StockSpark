@@ -43,7 +43,7 @@
   </where>
  </select>
   <select id="getById" resultType="java.util.Map">
-    SELECT * FROM stockinfo
+    SELECT day, open, high, low,close FROM stockinfo
     <where>
       <if test="stockId!=null">
         and  stock_id=#{stockId}
