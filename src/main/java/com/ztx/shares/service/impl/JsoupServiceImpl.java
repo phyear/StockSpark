@@ -20,6 +20,10 @@ import org.springframework.web.client.RestTemplate;
 import javax.annotation.Resource;
 import javax.sound.midi.Soundbank;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class JsoupServiceImpl implements JsoupService {
@@ -119,6 +123,32 @@ public class JsoupServiceImpl implements JsoupService {
         return count;
     }
 
+    @Override
+    public String getTencentDate(String url, String stockId) {
+        String res=restTemplate.getForObject(url+stockId, String.class);
+
+        if(res.equals("")|| res==""){return "获取数据异常";}
+        //根据“分割字符串
+        String[] resdate=res.split("\"");
+        //获取数据区域,替代字符串中的\n\
+        String dates=resdate[1].replace("\\n\\",",");
+        String[] datearray=dates.split("\\,");
+        List<String> list=Arrays.asList(datearray);
+        for (String da:list) {
+            if(da!=null && da!=""){
+            StockInfo stockInfo=strToValue(da,stockId);
+                int resa=0;
+            try {
+                resa=stockInfoMapper.insertSelective(stockInfo);
+            }catch (Exception e){
+                continue;
+            }
+
+            }
+        }
+        stockMapper.updateStatus(stockId,1);
+        return stockId+"添加成功";
+    }
 
 
     /**
@@ -138,4 +168,18 @@ public class JsoupServiceImpl implements JsoupService {
         stockInfo.setVolume(object.getString("volume"));
         return stockInfo;
     }
+
+   private StockInfo strToValue(String da,String stockId){
+
+       String[] vals=da.split(" ");
+       StockInfo object=new StockInfo();
+       object.setStockId(stockId);
+       object.setDay(DateUtil.strToDateBian(vals[0]));
+       object.setOpen(vals[1]);
+       object.setClose(vals[2]);
+       object.setHigh(vals[3]);
+       object.setLow(vals[4]);
+       object.setVolume(vals[5]);
+       return  object;
+   }
 }

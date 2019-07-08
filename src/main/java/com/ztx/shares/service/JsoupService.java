@@ -15,6 +15,14 @@ public interface JsoupService {
       */
      int initYearInfo(String url, String stockId,int val);
 
+     /**
+      *从腾讯接口获取一个股票一年的数据
+      * @param url
+      * @param stockId
+      * @return
+      */
+     String getTencentDate(String url,String stockId);
+
 
 
 }

@@ -92,6 +92,17 @@ public class DateUtil {
         Date strtodate = formatter.parse(strDate, pos);
         return strtodate;
     }
+
+    /**
+     * 将yyMMdd格式的字符串转换为正常时间
+     * @param date
+     */
+    public static Date strToDateBian(String date){
+        SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
+        ParsePosition pos = new ParsePosition(0);
+
+        return format.parse(date,pos);
+    }
     /**
      * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss
      *
