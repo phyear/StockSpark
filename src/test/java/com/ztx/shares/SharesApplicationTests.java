@@ -23,9 +23,9 @@ public class SharesApplicationTests {
     JsoupService jsoupService;
     @Test
     public void contextLoads() {
-
-       jsoupService.initYearInfo(
-               JsoupUtil.urls[0],"sz002027",0);
+        String url="http://data.gtimg.cn/flashdata/hushen/daily/17/sz000750.js?visitDstTime=1";
+       jsoupService.getTencentDate(
+               url,"sz000750");
     }
 
 }
