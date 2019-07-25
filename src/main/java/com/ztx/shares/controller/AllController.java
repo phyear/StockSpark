@@ -23,6 +23,7 @@ public class AllController {
     StockInfoService stockInfoService;
 
     @RequestMapping("/")
+    @PostMapping
     public String index(ModelAndView modelAndView){
      return "stockMain";
     }
