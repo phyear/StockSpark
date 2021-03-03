@@ -34,6 +34,6 @@ jobs:
         with: 
           username: codereporter
           password: z19951012tx
-          repository: username/repository
+          repository: codereporter/blog
           tag_with_sha: true
           context: .
