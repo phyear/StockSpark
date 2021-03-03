@@ -84,7 +84,7 @@
 
 
         </plugins>
-
+        <finalName>app</finalName>
 
     </build>
 
