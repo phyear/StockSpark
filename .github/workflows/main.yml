@@ -36,4 +36,4 @@ jobs:
           password: z19951012tx
           repository: username/repository
           tag_with_sha: true
-          path: 'docker'
+          context: .
